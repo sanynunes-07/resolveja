@@ -159,8 +159,101 @@ window.addEventListener("appinstalled", () => toast("ResolveJá instalado!"));
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
 }
+
+function showAuthNotice(message) {
+  const notice = $("#authNotice");
+  notice.textContent = message;
+  notice.classList.remove("hidden");
+}
+
+async function loginUser() {
+  const email = $("#authEmail").value.trim();
+  const password = $("#authPassword").value;
+
+  try {
+    const { data, error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) throw error;
+
+    showAuthNotice("Login realizado com sucesso!");
+    $("#logoutBtn").classList.remove("hidden");
+    toast("Você entrou na sua conta.");
+  } catch (error) {
+    showAuthNotice("Não foi possível entrar. Confira o e-mail e a senha.");
+    console.error("Erro de login:", error.message);
+  }
+}
+
+async function signupUser() {
+  const email = $("#authEmail").value.trim();
+  const password = $("#authPassword").value;
+
+  if (!$("#authForm").reportValidity()) return;
+
+  try {
+    const { data, error } = await supabaseClient.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: window.location.origin + window.location.pathname
+      }
+    });
+
+    if (error) throw error;
+
+    if (data.session) {
+      showAuthNotice("Conta criada e login realizado com sucesso!");
+      $("#logoutBtn").classList.remove("hidden");
+    } else {
+      showAuthNotice(
+        "Cadastro recebido! Confira seu e-mail para confirmar a conta antes de entrar."
+      );
+    }
+  } catch (error) {
+    showAuthNotice("Não foi possível criar a conta. Confira os dados e tente novamente.");
+    console.error("Erro de cadastro:", error.message);
+  }
+}
+
+function setupAuth() {
+  $("#authForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    await loginUser();
+  });
+
+  $("#signupBtn").addEventListener("click", signupUser);
+
+  $("#logoutBtn").addEventListener("click", async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      showAuthNotice("Não foi possível sair da conta. Tente novamente.");
+      return;
+    }
+
+    $("#logoutBtn").classList.add("hidden");
+    showAuthNotice("Você saiu da sua conta.");
+  });
+
+  supabaseClient.auth.getSession().then(({ data, error }) => {
+    if (error) {
+      console.error("Erro ao verificar sessão:", error.message);
+      return;
+    }
+
+    if (data.session) {
+      $("#logoutBtn").classList.remove("hidden");
+      showAuthNotice("Você já está conectado à sua conta.");
+    }
+  });
+}
+
 populateSelect("requestCategory","Selecione uma categoria");
 populateSelect("proCategory","Selecione sua especialidade");
 renderCategories();
 renderProfessionals();
 setupNavigation();
+setupAuth();
