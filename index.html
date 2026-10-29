@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#155eef">
+  <meta name="description" content="Encontre profissionais e solicite orçamentos para serviços perto de você.">
+  <title>ResolveJá — encontre quem resolve</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="ResolveJá início" data-view="home">
+      <span class="brand-mark">R</span><span>Resolve<span class="brand-accent">Já</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <button class="nav-btn active" data-view="home">Início</button>
+      <button class="nav-btn" data-view="requests">Meus pedidos</button>
+      <button class="nav-btn" data-view="professionals">Sou profissional</button>
+    </nav>
+    <button id="installBtn" class="btn btn-outline install-btn" hidden>Instalar app</button>
+  </header>
+
+  <main>
+    <section id="homeView" class="view">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="dot"></span> SOLUÇÕES PARA O DIA A DIA</span>
+          <h1>Precisou resolver?<br><span>Encontre quem faz.</span></h1>
+          <p>Encontre profissionais para sua casa, compare propostas e escolha com mais tranquilidade.</p>
+          <button class="btn btn-primary btn-large" id="heroRequestBtn">Solicitar orçamento <span aria-hidden="true">→</span></button>
+          <div class="trust-line"><span aria-hidden="true">✓</span> Comece grátis · Sem compromisso</div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-circle circle-one"></div><div class="art-circle circle-two"></div>
+          <div class="tool-card tool-main"><span class="tool-emoji">🧰</span><div><strong>Problema resolvido</strong><small>Um passo de cada vez</small></div><span class="check-bubble">✓</span></div>
+          <div class="float-card float-top"><span class="float-icon blue">⌕</span><div><strong>Encontre profissionais</strong><small>Por serviço e região</small></div></div>
+          <div class="float-card float-bottom"><span class="float-icon green">✓</span><div><strong>Compare propostas</strong><small>Escolha o que funciona</small></div></div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow">COMO PODEMOS AJUDAR?</span><h2>O que você precisa resolver?</h2></div><span class="section-note">Escolha uma categoria</span></div>
+        <div class="category-grid" id="categoryGrid"></div>
+      </section>
+
+      <section class="section popular-section">
+        <div class="section-heading"><div><span class="eyebrow">PARA COMEÇAR</span><h2>Profissionais em destaque</h2></div><span class="demo-tag">Perfis de demonstração</span></div>
+        <div class="professional-grid" id="professionalGrid"></div>
+      </section>
+
+      <section class="how-section">
+        <div class="section-heading"><div><span class="eyebrow">SIMPLES ASSIM</span><h2>Como funciona</h2></div></div>
+        <div class="steps-grid">
+          <article class="step-card"><span class="step-number">01</span><div class="step-icon">📝</div><h3>Conte o que precisa</h3><p>Descreva o serviço e informe sua região.</p></article>
+          <article class="step-card"><span class="step-number">02</span><div class="step-icon">💬</div><h3>Receba propostas</h3><p>Organize os orçamentos recebidos em um só lugar.</p></article>
+          <article class="step-card"><span class="step-number">03</span><div class="step-icon">🤝</div><h3>Escolha com calma</h3><p>Compare detalhes e combine o serviço diretamente.</p></article>
+        </div>
+      </section>
+    </section>
+
+    <section id="requestView" class="view hidden">
+      <div class="page-heading"><button class="back-btn" data-view="home">← Voltar</button><span class="eyebrow">PEDIDO DE ORÇAMENTO</span><h1>O que precisa ser resolvido?</h1><p>Conte um pouco sobre o serviço para organizar sua solicitação.</p></div>
+      <form id="requestForm" class="form-card">
+        <div class="form-row">
+          <label>Tipo de serviço<select id="requestCategory" required></select></label>
+          <label>Sua cidade<input id="requestCity" required placeholder="Ex.: Valença"></label>
+        </div>
+        <label>Qual é o problema?<textarea id="requestDescription" required minlength="10" rows="4" placeholder="Descreva o que precisa, onde acontece e qualquer detalhe importante..."></textarea></label>
+        <div class="form-row">
+          <label>Quando precisa?<select id="requestWhen"><option>O quanto antes</option><option>Nos próximos dias</option><option>Tenho flexibilidade</option></select></label>
+          <label>Faixa de orçamento (opcional)<select id="requestBudget"><option value="">Ainda não sei</option><option>Até R$ 100</option><option>R$ 100 a R$ 300</option><option>R$ 300 a R$ 700</option><option>Acima de R$ 700</option></select></label>
+        </div>
+        <div class="privacy-note"><span>🔒</span><p>Não informe senhas, dados bancários ou seu endereço completo neste formulário.</p></div>
+        <button class="btn btn-primary btn-large full-width" type="submit">Salvar solicitação <span>→</span></button>
+        <p class="form-footnote">Esta versão salva os dados somente neste navegador. Ainda não envia pedidos para profissionais reais.</p>
+      </form>
+    </section>
+
+    <section id="requestsView" class="view hidden">
+      <div class="page-heading"><span class="eyebrow">ACOMPANHAMENTO</span><h1>Meus pedidos</h1><p>Veja as solicitações salvas neste dispositivo.</p></div>
+      <div id="requestList" class="request-list"></div>
+    </section>
+
+    <section id="professionalsView" class="view hidden">
+      <div class="page-heading"><span class="eyebrow">PARA QUEM PRESTA SERVIÇOS</span><h1>Encontre novos clientes</h1><p>Conheça a proposta do ResolveJá para profissionais autônomos.</p></div>
+      <div class="pro-intro">
+        <div class="pro-intro-icon">🛠️</div><div><h2>Seu trabalho merece ser encontrado.</h2><p>Cadastre seu interesse para participar de um futuro piloto local. Nesta versão, o formulário registra o interesse apenas neste dispositivo.</p></div>
+      </div>
+      <form id="professionalForm" class="form-card">
+        <label>Nome ou nome comercial<input id="proName" required placeholder="Como os clientes conhecem você?"></label>
+        <div class="form-row"><label>Especialidade<select id="proCategory" required></select></label><label>Cidade onde atende<input id="proCity" required placeholder="Sua cidade"></label></div>
+        <label>Contato (opcional)<input id="proContact" placeholder="Telefone comercial ou e-mail"></label>
+        <button class="btn btn-primary btn-large full-width" type="submit">Registrar meu interesse</button>
+        <p class="form-footnote">Não há publicação pública nem envio de dados nesta versão demonstrativa.</p>
+      </form>
+      <div id="proInterestNotice" class="notice hidden" role="status"></div>
+    </section>
+
+    <section id="detailView" class="view hidden">
+      <div id="detailContent"></div>
+    </section>
+  </main>
+
+  <footer class="footer"><a class="brand footer-brand" href="#" data-view="home"><span class="brand-mark">R</span><span>Resolve<span class="brand-accent">Já</span></span></a><p>Uma forma mais simples de encontrar quem resolve.</p><div class="footer-links"><a href="#sobre" id="aboutLink">Sobre o projeto</a><a href="#privacidade" id="privacyLink">Privacidade</a></div><small>Protótipo inicial · Os perfis exibidos são exemplos demonstrativos.</small></footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="aboutDialog" class="modal"><div class="modal-head"><h2>Sobre o ResolveJá</h2><button class="icon-btn" data-close-dialog aria-label="Fechar">×</button></div><p>O ResolveJá é um protótipo de marketplace local de serviços. Esta versão serve para testar a experiência e não conecta clientes a profissionais reais.</p><button class="btn btn-primary full-width" data-close-dialog>Entendi</button></dialog>
+  <dialog id="privacyDialog" class="modal"><div class="modal-head"><h2>Privacidade</h2><button class="icon-btn" data-close-dialog aria-label="Fechar">×</button></div><p>As solicitações e os dados de interesse desta demonstração ficam no armazenamento local deste navegador. Eles não são enviados a um servidor. Evite inserir informações sensíveis. Ao limpar os dados do navegador, essas informações podem ser apagadas.</p><button class="btn btn-primary full-width" data-close-dialog>Entendi</button></dialog>
+  <script src="app.js"></script>
+</body>
+</html>
