@@ -19,6 +19,8 @@
       <button class="nav-btn active" data-view="home">Início</button>
       <button class="nav-btn" data-view="requests">Meus pedidos</button>
       <button class="nav-btn" data-view="professionals">Sou profissional</button>
+      <button class="nav-btn" data-view="auth">Entrar / cadastrar</button>
+
     </nav>
     <button id="installBtn" class="btn btn-outline install-btn" hidden>Instalar app</button>
   </header>
@@ -100,6 +102,40 @@
     </section>
 
     <section id="detailView" class="view hidden">
+      
+<section id="authView" class="view hidden">
+  <div class="page-heading">
+    <span class="eyebrow">SUA CONTA</span>
+    <h1>Bem-vindo ao ResolveJá</h1>
+    <p>Entre ou crie sua conta para começar.</p>
+  </div>
+
+  <form id="authForm" class="form-card">
+    <label>
+      E-mail
+      <input id="authEmail" type="email" required
+        autocomplete="email" placeholder="voce@exemplo.com">
+    </label>
+
+    <label>
+      Senha
+      <input id="authPassword" type="password" required
+        minlength="6" autocomplete="current-password"
+        placeholder="Mínimo de 6 caracteres">
+    </label>
+
+    <button class="btn btn-primary btn-large full-width"
+      type="submit">Entrar</button>
+
+    <button class="btn btn-outline btn-large full-width"
+      id="signupBtn" type="button">Criar minha conta</button>
+
+    <p id="authNotice" class="notice hidden" role="status"></p>
+    <button class="btn btn-outline full-width hidden"
+      id="logoutBtn" type="button">Sair da conta</button>
+  </form>
+</section>
+
       <div id="detailContent"></div>
     </section>
   </main>
