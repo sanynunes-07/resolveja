@@ -1,3 +1,11 @@
+
+const SUPABASE_URL = "https://sxrwclhxpkxxhxdrlbbs.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_s_ig1gbyHWZtpN-FWcjGHw_p64gzTrY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
 const CATEGORIES = [
   {name:"Encanador",icon:"🚿",desc:"Vazamentos e reparos"},
   {name:"Eletricista",icon:"💡",desc:"Instalações e manutenção"},
